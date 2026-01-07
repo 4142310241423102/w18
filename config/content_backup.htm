@@ -1,4 +1,10 @@
 <h1>About</h1>
+<p><span>執行三個程式的影片連結：<a href="https://youtu.be/PZbXoRjJsRk?si=1T8Jf0veygwvqIgG">https://youtu.be/PZbXoRjJsRk?si=1T8Jf0veygwvqIgG</a></span></p>
+<p><span>心得：</span></p>
+<p data-path-to-node="9,0">在執行這系列程式的過程中，我運用了可攜式程式套件進行實作，並透過操作終端機與電腦對話。這段經歷讓我能即時觀察指令執行的反饋，並在遇到錯誤時反覆修正，進而深入理解網頁程式的運行邏輯。</p>
+<p data-path-to-node="9,1"><b data-index-in-node="0" data-path-to-node="9,1">1. 後端架構理解：Flask 引擎與通訊埠管理</b> ：透過在終端機執行<span> </span><code data-index-in-node="34" data-path-to-node="9,1">pip install flask peewee flask_bcrypt</code>，我成功安裝了專案所需的後端模組。我認識到<span> </span><b data-index-in-node="93" data-path-to-node="9,1">Flask</b><span> </span>扮演著「後端引擎」的角色，負責處理數據並架設伺服器環境。在執行第二個程式時，我遇到了<b data-index-in-node="141" data-path-to-node="9,1">通訊埠衝突</b>的挑戰，因為第一個程式已佔用了預設的<span> </span><code data-index-in-node="171" data-path-to-node="9,1">port 5000</code>，所以我必須修改<span> </span><code data-index-in-node="189" data-path-to-node="9,1">app.py</code><span> </span>最後一行，手動指定為<span> </span><code data-index-in-node="207" data-path-to-node="9,1">port=5001</code><span> </span>才能讓程式順利啟動。</p>
+<p data-path-to-node="9,2"><b data-index-in-node="0" data-path-to-node="9,2">2. 專案部署與目錄切換實務</b> ：到了第三個「憤怒鳥與小豬」遊戲專案，我已能熟練地在終端機中完成套件安裝與目錄切換。我理解到在執行不同專案時，必須使用<span> </span><b data-index-in-node="74" data-path-to-node="9,2"><code data-index-in-node="74" data-path-to-node="9,2">cd</code></b><span> </span>指令精準控制路徑：每當完成一個程式並按下<span> </span><code data-index-in-node="98" data-path-to-node="9,2">Ctrl+C</code><span> </span>結束後，我會先輸入<span> </span><b data-index-in-node="115" data-path-to-node="9,2"><code data-index-in-node="115" data-path-to-node="9,2">cd ..</code></b><span> </span>回到上一層目錄，再進入下一個專案資料夾啟動新服務。</p>
+<p data-path-to-node="9,3">雖然一開始對操作流程感到陌生，且常因指令輸入錯誤或路徑不對導致程式無法執行，但透過不斷嘗試、在終端機中分析錯誤，以及向老師與同學請教，我逐漸理解了每個步驟背後的技術含義。</p>
 <p>課程名稱: 計算機程式</p>
 <p>課程評分:</p>
 <p style="padding-left: 30px;"><span style="background-color: #ffff00;">學習心得報告 (60%)</span> - MS Teams 線上參與，<span style="background-color: #ccffcc;">6人一組</span>每三週發表學習心得。</p>
@@ -11,7 +17,407 @@
 <p style="padding-left: 60px;">w17 (<span style="background-color: #ccffcc;">1b 採 Youtube 影片簡報</span>): 計算機程式課程學到了什麼？</p>
 <p style="padding-left: 60px;">w18: 課程總結</p>
 <p style="padding-left: 30px;"><span style="background-color: #ffff00;">個人與分組網站維護 (40%)</span> - 每週至少兩次推送與課程進度相關的學習內容與心得。</p>
-<p style="padding-left: 60px;">w9 期中自評、w18 期末自評</p>
+<p style="padding-left: 60px;">w9 期中自評、w18 期末自評</p><h1>點擊球</h1>
+<p>附加的新功能：</p>
+<p>1.呼吸感動畫效果：球體會規律的進行「縮放」律動</p>
+<p>2.點擊視覺回饋：波紋特效、浮動分數</p>
+<p>3.動態變色：擊中球後，會從顏色清單中隨機更換顏色</p>
+<script src="/static/brython.js"></script>
+<script src="/static/brython_stdlib.js"></script>
+<script>
+window.onload = function(){
+  brython({debug:1, pythonpath:['/static/']});
+}
+</script>
+<div id="brython_div1"></div>
+<script type="text/python3">
+from browser import document, timer
+import random, time
+
+# ===== 遊戲設定 =====
+GAME_DURATION = 40
+BALL_SIZE = 50
+
+# ===== 狀態 =====
+score = 0
+game_active = False
+ball_handle = None
+time_handle = None
+
+# ===== 顏色 =====
+colors = ["red", "blue", "green", "orange", "purple"]
+current_color = "blue"
+
+# ===== 遊戲區 =====
+game_area = document["brython_div1"]
+game_area.style.width = "600px"
+game_area.style.height = "500px"
+game_area.style.margin = "20px auto"
+game_area.style.border = "3px solid #333"
+game_area.style.backgroundColor = "#e0e0ff"
+game_area.style.position = "relative"
+game_area.style.overflow = "hidden"
+game_area.style.cursor = "crosshair"
+
+# ===== CSS 特效 (新增了 ballPulse 動畫) =====
+style = document.createElement("style")
+style.text = """
+@keyframes ballPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.pulsing-ball {
+  animation: ballPulse 0.8s infinite ease-in-out;
+}
+@keyframes ripple {
+  from { transform: scale(0.5); opacity: 0.8; }
+  to   { transform: scale(2.5); opacity: 0; }
+}
+@keyframes floatScore {
+  from { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(-40px); opacity: 0; }
+}
+.ripple {
+  position: absolute;
+  border: 3px solid white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: ripple 0.5s ease-out;
+  pointer-events: none;
+}
+.float-score {
+  position: absolute;
+  font-size: 22px;
+  font-weight: bold;
+  color: red;
+  animation: floatScore 0.6s ease-out;
+  pointer-events: none;
+}
+"""
+document <= style
+
+# ===== 分數 =====
+score_display = document.createElement("div")
+score_display.style.position = "absolute"
+score_display.style.top = "10px"
+score_display.style.left = "10px"
+score_display.style.fontSize = "1.2em"
+score_display.style.fontWeight = "bold"
+score_display.style.backgroundColor = "rgba(255,255,255,0.7)"
+score_display.style.padding = "5px"
+game_area <= score_display
+
+# ===== 時間 =====
+timer_display = document.createElement("div")
+timer_display.style.position = "absolute"
+timer_display.style.top = "10px"
+timer_display.style.right = "10px"
+timer_display.style.fontSize = "1.2em"
+timer_display.style.fontWeight = "bold"
+timer_display.style.backgroundColor = "rgba(255,255,255,0.7)"
+timer_display.style.padding = "5px"
+game_area <= timer_display
+
+# ===== 球 (加上了 pulsing-ball 類別) =====
+ball = document.createElement("div")
+ball.classList.add("pulsing-ball") # 啟動呼吸效果
+ball.style.width = f"{BALL_SIZE}px"
+ball.style.height = f"{BALL_SIZE}px"
+ball.style.borderRadius = "50%"
+ball.style.position = "absolute"
+ball.style.cursor = "pointer"
+ball.style.transition = "top 0.5s, left 0.5s"
+ball.style.backgroundColor = current_color
+game_area <= ball
+
+# ===== 波紋 =====
+def show_ripple(x, y):
+    r = document.createElement("div")
+    r.className = "ripple"
+    r.style.left = f"{x}px"
+    r.style.top = f"{y}px"
+    game_area <= r
+    timer.set_timeout(lambda: r.remove(), 500)
+
+# ===== +1 浮出 =====
+def show_plus_one(x, y):
+    fs = document.createElement("div")
+    fs.className = "float-score"
+    fs.text = "+1"
+    fs.style.left = f"{x + 15}px"
+    fs.style.top = f"{y}px"
+    game_area <= fs
+    timer.set_timeout(lambda: fs.remove(), 600)
+
+# ===== 球移動 =====
+def move_ball():
+    if not game_active:
+        return
+    max_x = game_area.clientWidth - BALL_SIZE
+    max_y = game_area.clientHeight - BALL_SIZE
+    ball.style.left = f"{random.randint(0, max_x)}px"
+    ball.style.top = f"{random.randint(40, max_y)}px"
+
+# ===== 點擊球 =====
+def hit_ball(ev):
+    global score, current_color
+    if not game_active:
+        return
+
+    score += 1
+    score_display.text = f"分數: {score}"
+
+    x = ball.offsetLeft
+    y = ball.offsetTop
+
+    show_ripple(x, y)
+    show_plus_one(x, y)
+
+    current_color = random.choice(colors)
+    ball.style.backgroundColor = current_color
+    move_ball()
+    ev.stopPropagation()
+
+ball.bind("click", hit_ball)
+
+# ===== 結束畫面 =====
+game_over = document.createElement("div")
+game_over.style.position = "absolute"
+game_over.style.top = "50%"
+game_over.style.left = "50%"
+game_over.style.transform = "translate(-50%, -50%)"
+game_over.style.backgroundColor = "rgba(0,0,0,0.9)"
+game_over.style.color = "white"
+game_over.style.padding = "30px"
+game_over.style.borderRadius = "10px"
+game_over.style.fontSize = "2em"
+game_over.style.display = "none"
+game_over.style.textAlign = "center"
+game_over.style.zIndex = "10"
+game_area <= game_over
+
+# ===== 重新開始 =====
+def restart_game(ev=None):
+    game_over.style.display = "none"
+    start_game()
+
+# ===== 時間 =====
+def check_time():
+    global game_active
+    remain = int(end_time - time.time())
+
+    if remain <= 5 and remain > 0:
+        timer_display.style.color = "red"
+    else:
+        timer_display.style.color = "black"
+
+    if remain <= 0:
+        timer_display.text = "時間: 0s"
+        game_active = False
+        game_over.innerHTML = f"遊戲結束<br>最終分數: {score}<br>"
+        btn = document.createElement("button")
+        btn.text = "重新開始"
+        btn.style.fontSize = "0.6em"
+        btn.style.marginTop = "15px"
+        btn.bind("click", restart_game)
+        game_over <= btn
+        game_over.style.display = "block"
+        timer.clear_interval(ball_handle)
+        timer.clear_interval(time_handle)
+    else:
+        timer_display.text = f"時間: {remain}s"
+
+# ===== 開始 =====
+def start_game():
+    global score, game_active, end_time, ball_handle, time_handle
+    score = 0
+    game_active = True
+    score_display.text = "分數: 0"
+    timer_display.text = f"時間: {GAME_DURATION}s"
+    timer_display.style.color = "black"
+    end_time = time.time() + GAME_DURATION
+    move_ball()
+    ball_handle = timer.set_interval(move_ball, 1000)
+    time_handle = timer.set_interval(check_time, 1000)
+
+start_game()
+</script><h1>Final</h1>
+<p><span data-teams="true">41423102 - 2025 計算機程式期末考週題目</span></p>
+<p><span data-teams="true">YT連結：<a href="https://www.youtube.com/watch?v=lFz1hOQ8Wms">https://www.youtube.com/watch?v=lFz1hOQ8Wms</a></span></p><h1>移動方塊遊戲</h1>
+<p>控制方塊，避開移動的紅色敵人，盡可能長時間生存，獲得更高的分數</p>
+<!-- 導入 brython 程式庫 -->
+<p>
+<script src="/static/brython.js"></script>
+<script src="/static/brython_stdlib.js"></script>
+</p>
+<!-- 啟動 Brython -->
+<p>
+<script>
+window.onload=function(){
+brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
+}
+</script>
+</p>
+<p><!-- 導入 FileSaver 與 filereader --></p>
+<p>
+<script src="/static/ace/FileSaver.min.js" type="text/javascript"></script>
+<script src="/static/ace/filereader.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 ace --></p>
+<p>
+<script src="/static/ace/ace.js" type="text/javascript"></script>
+<script src="/static/ace/ext-language_tools.js" type="text/javascript"></script>
+<script src="/static/ace/mode-python3.js" type="text/javascript"></script>
+<script src="/static/ace/snippets/python.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 gearUtils-0.9.js Cango 齒輪繪圖程式庫 -->
+<script src="/static/Cango-24v03-min.js"></script>
+<script src="/static/gearUtils-09.js"></script>
+<script src="/static/SVGpathUtils-6v03-min.js"></script>
+<script src="/static/sylvester.js"></script>
+<script src="/static/PrairieDraw.js"></script>
+</p>
+<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["kw_py_src1"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
+<p>
+<script type="text/javascript">
+function doSave(storage_id, filename){
+    var blob = new Blob([localStorage[storage_id]], {type: "text/plain;charset=utf-8"});
+    filename = document.getElementById(filename).value
+    saveAs(blob, filename+".py");
+}
+</script>
+</p>
+<!-- 控制按鈕區 -->
+<div style="margin: 10px;"><button id="btn_up">↑</button> <button id="btn_down">↓</button> <button id="btn_left">←</button> <button id="btn_right">→</button> <button id="btn_spawn">生成敵人</button> <button id="btn_color">改玩家顏色</button> <button id="btn_restart">重新開始</button></div>
+<!-- 遊戲區 -->
+<div id="game_area" style="width: 400px; height: 400px; border: 2px solid black; position: relative; margin: 10px; overflow: hidden;"><!-- 玩家方塊 -->
+<div id="player" style="width: 40px; height: 40px; background: blue; position: absolute; left: 180px; /* width/2 - player_size/2 */        top: 180px;"></div>
+</div>
+<!-- 分數區 -->
+<div id="score_display" style="margin: 5px; font-weight: bold;">分數: 0</div>
+<!-- 遊戲結束訊息 -->
+<div id="game_over_msg"></div>
+<!-- Brython 遊戲程式 -->
+<script type="text/python3">
+from browser import document, html, timer
+import random
+
+# === 遊戲參數 ===
+WIDTH, HEIGHT = 400, 400
+PLAYER_SIZE = 40
+ENEMY_SIZE = 30
+STEP = 10
+
+# === 遊戲狀態 ===
+px, py = 180, 180
+enemies = []
+score = 0
+game_over = False
+timer_ref = None
+
+player = document["player"]
+score_display = document["score_display"]
+msg_div = document["game_over_msg"]
+game_area = document["game_area"]
+
+# === 玩家移動函式 ===
+def move_up(ev):
+    global py
+    py = max(0, py - STEP)
+    player.style.top = f"{py}px"
+
+def move_down(ev):
+    global py
+    py = min(HEIGHT-PLAYER_SIZE, py + STEP)
+    player.style.top = f"{py}px"
+
+def move_left(ev):
+    global px
+    px = max(0, px - STEP)
+    player.style.left = f"{px}px"
+
+def move_right(ev):
+    global px
+    px = min(WIDTH-PLAYER_SIZE, px + STEP)
+    player.style.left = f"{px}px"
+
+document["btn_up"].bind("click", move_up)
+document["btn_down"].bind("click", move_down)
+document["btn_left"].bind("click", move_left)
+document["btn_right"].bind("click", move_right)
+
+# === 敵人生成 ===
+def spawn_enemy(ev=None):
+    ex = random.randint(0, WIDTH - ENEMY_SIZE)
+    ey = random.randint(0, HEIGHT - ENEMY_SIZE)
+    enemy = html.DIV(style=f"width:{ENEMY_SIZE}px;height:{ENEMY_SIZE}px;background:red;position:absolute;left:{ex}px;top:{ey}px;")
+    game_area <= enemy
+    enemies.append({"el": enemy, "dx": random.choice([-3,3]), "dy": random.choice([-3,3])})
+
+document["btn_spawn"].bind("click", spawn_enemy)
+
+# === 玩家顏色變換 ===
+def change_color(ev):
+    colors = ["blue", "green", "purple", "orange", "pink"]
+    player.style.backgroundColor = random.choice(colors)
+
+document["btn_color"].bind("click", change_color)
+
+# === 遊戲重新開始 ===
+def restart_game(ev):
+    global score, game_over, px, py, enemies, timer_ref
+    for e in enemies: e["el"].remove()
+    enemies.clear()
+    msg_div.text = ""
+    px, py = WIDTH//2 - PLAYER_SIZE//2, HEIGHT//2 - PLAYER_SIZE//2
+    player.style.left = f"{px}px"
+    player.style.top = f"{py}px"
+    score = 0
+    score_display.text = f"分數: {score}"
+    game_over = False
+    timer_ref = timer.set_interval(game_loop, 100)
+
+document["btn_restart"].bind("click", restart_game)
+
+# === 碰撞檢測 ===
+def check_collision(px, py, ex, ey):
+    return (px < ex+ENEMY_SIZE and px+PLAYER_SIZE > ex and
+            py < ey+ENEMY_SIZE and py+PLAYER_SIZE > ey)
+
+# === 敵人移動 ===
+def update_enemies():
+    global game_over, timer_ref
+    if game_over: return
+    for e in enemies:
+        left = int(e["el"].style.left[:-2]) + e["dx"]
+        top = int(e["el"].style.top[:-2]) + e["dy"]
+        if left <=0 or left >= WIDTH-ENEMY_SIZE: e["dx"] *= -1
+        if top <=0 or top >= HEIGHT-ENEMY_SIZE: e["dy"] *= -1
+        e["el"].style.left = f"{left}px"
+        e["el"].style.top = f"{top}px"
+        if check_collision(px, py, left, top):
+            msg_div.text = "💀 遊戲結束 💀"
+            msg_div.style = "color:red;font-size:24px;font-weight:bold;"
+            timer.clear_interval(timer_ref)
+            game_over = True
+            return
+
+# === 計分更新 ===
+def update_score():
+    global score
+    if game_over: return
+    score += 1
+    score_display.text = f"分數: {score}"
+
+# === 遊戲迴圈 ===
+def game_loop():
+    update_enemies()
+    update_score()
+
+timer_ref = timer.set_interval(game_loop, 100)
+</script><h1>⛧</h1>
 <h1>Brython</h1>
 <p><a href="https://brython.info/">Brython</a> 是一個將 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 語法編譯為 <a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript">JavaScript</a> 的工具，能直接在瀏覽器中以 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 撰寫前端網頁程式。</p>
 <p><button id="add1to100">1 add to 100</button><button id="robot1">機器人巡邏</button><button id="free_walk">自由行</button></p>
@@ -307,4 +713,230 @@ doc["aitetris"].bind("click", aitetris.do)
 <p><!-- Brython 程式執行的結果, 都以 brython_div1 作為切入位置 --></p>
 <div id="brython_div2"></div>
 <!-- editor2 結束 --><hr/>
-<p></p>
+<p></p><h2>Pyodide3</h2>
+<p>Pyodide3 則在 <a href="https://mde.tw/cp2025/content/Pyodide.html">Pyodide</a> 與 <a href="https://mde.tw/cp2025/content/Pyodide2.html">Pyodide2</a> 頁面架構下，進一步導入 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/robot_w_world.py">robot_w_world.py</a>，在既有的水平圍牆 <a href="https://mde.tw/cp2025/reeborg/src/images/north.png">north.png</a> 與垂直圍牆 <a href="https://mde.tw/cp2025/reeborg/src/images/east.png">east.png</a> 檔案之外，加入 <a href="https://mde.tw/cp2025/reeborg/src/images/carrot.png">carrot.png</a>、<a href="https://mde.tw/cp2025/reeborg/src/images/grass.png">grass.png</a> 與 <a href="https://mde.tw/cp2025/reeborg/src/images/pale_grass.png">pale_grass.png</a> 等圖檔。並且擴充可從 URL 讀進 json 格式的 world 變數功能，以便製作出更多元的場景任務，要求機器人執行。</p>
+<p>其中 src URL 變數，可以將網路上的機器人控制程式導入 Pyodide3 頁面外，world URL 變數則可以導入源自 <a href="https://mde.tw/reeborg">Reeborg</a> 機器人程式所設定的 json 格式場景。</p>
+<p>由於 Reeborg 系統中的 png 圖檔均非透明背景，<a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/robot_w_world.py">robot_w_world.py</a> 必須利用 HTML 中的 CANVAS，將關鍵的白色背景，以透明的方式顯示。</p>
+<p>src URL 變數讀進 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/8ac3ce859d6aec327b7859e091168270d6a951f7/pyodide2_turn_right.py">turn_right 程式</a>，而 world URL 變數則讀進 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/43517f3f54a5ac24d55d5a5cf8d316e6db2f3b65/harvest2.json">harvest2.json</a>，執行<a href="https://mde.tw/cp2025/content/Pyodide3.html?src=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/8ac3ce859d6aec327b7859e091168270d6a951f7/pyodide2_turn_right.py&amp;world=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/43517f3f54a5ac24d55d5a5cf8d316e6db2f3b65/harvest2.json">結果</a>。</p>
+<p>讀進 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/1b1c26eca7f5d772c6301bae865efaddb00a87bb/harvest3.json">harvest3.json</a>, 執行<a href="https://mde.tw/cp2025/content/Pyodide3.html?src=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/8ac3ce859d6aec327b7859e091168270d6a951f7/pyodide2_turn_right.py&amp;world=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/harvest3.json">結果</a>。</p>
+<p>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+</p>
+<p><button id="version">version</button> <button id="hello_button">hello</button> <button id="add1to100">1 add to 100</button> <button id="robot1">機器人巡邏</button> <button id="free_walk">自由行</button> <button id="numpy_ode">numpy_ode</button></p>
+<!-- Ace Editor Scripts -->
+<p>
+<script src="/static/ace/FileSaver.min.js"></script>
+<script src="/static/ace/filereader.js"></script>
+<script src="/static/ace/ace.js"></script>
+<script src="/static/ace/ext-language_tools.js"></script>
+<script src="/static/ace/mode-python.js"></script>
+<script src="/static/ace/snippets/python.js"></script>
+</p>
+<!-- Editor 1 -->
+<div id="kw_editor1" style="width: 600px; height: 300px;"></div>
+<p><button id="kw_run1">Run</button> <button id="kw_output1">Output</button> <button id="kw_clear_console1">清除輸出區</button> <button onclick="location.reload()">Reload</button></p>
+<p><textarea id="kw_console1"></textarea></p>
+<div id="pyodide_div1"></div>
+<div id="mpl_output1"></div>
+<div id="brython_div1"></div>
+<hr/>
+<p>從 1 累加到 100 part2:</p>
+<p><button id="add1to100part2">1 add to 100</button></p>
+<!-- Editor 2 -->
+<div id="kw_editor2" style="width: 600px; height: 300px;"></div>
+<p><button id="kw_run2">Run</button> <button id="kw_output2">Output</button> <button id="kw_clear_console2">清除輸出區</button> <button onclick="location.reload()">Reload</button></p>
+<p><textarea id="kw_console2"></textarea></p>
+<div id="pyodide_div2"></div>
+<div id="mpl_output2"></div>
+<div id="brython_div2"></div>
+<p>
+<script>
+function getUrlParam(key) {
+  return new URLSearchParams(window.location.search).get(key);
+}
+function updateUrlParam(key, value) {
+  const url = new URL(window.location);
+  url.searchParams.set(key, value);
+  window.history.replaceState({}, "", url);
+}
+
+let pyodide, editor1, editor2;
+
+// 新增：把 robot_w_world.py 寫入 pyodide FS
+async function loadRobotModule() {
+  const robotUrl = "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/robot_w_world.py";
+  const r = await fetch(robotUrl);
+  if (!r.ok) throw new Error(`載入 robot.py 失敗: ${r.status}`);
+  const code = await r.text();
+  pyodide.FS.writeFile("/robot.py", code);
+  pyodide.runPython(`import sys; sys.path.append("/")`);  // 加入根目錄到 sys.path
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  editor1 = ace.edit("kw_editor1");
+  editor1.setTheme("ace/theme/chrome");
+  editor1.session.setMode("ace/mode/python");
+
+  editor2 = ace.edit("kw_editor2");
+  editor2.setTheme("ace/theme/chrome");
+  editor2.session.setMode("ace/mode/python");
+
+  pyodide = await loadPyodide();
+  await pyodide.loadPackage(["numpy", "scipy", "matplotlib", "micropip"]);
+
+  // 預先載入 robot.py
+  await loadRobotModule();
+
+  // 你現有的 hello() 定義
+  const code = `
+def hello():
+    print("Hello from custom module!")
+`;
+  pyodide.runPython(code);
+
+  // 這是你之前其他按鈕用的 Gist 連結
+  const GIST_ADD1TO100 =
+    "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/" +
+    "c48e37714f055c3a0027cbfef59e442a6ef659b9/from_1_add_to_100_1.py";
+  const NUMPY_ODE =
+    "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/" +
+    "98d582539545b3c9fbfa35dd3e605c506367618e/pyodide_ode_ex1.py";
+  const PYODIDE_ROBOT_ANIMATION =
+    "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/" +
+    "ff833d14181c7e270d37432aa8589f5ecf00e383/pyodide_walk_around2.py";
+  const FREE_WALK = 
+    "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/" + "2a66dceb4a1dbdd0c384d4d17453f1e4f03f2493/pyodide_free_walk2.py"
+
+  // 預設載入 GIST_ADD1TO100（或 URL 參數決定）
+  const src = getUrlParam("src");
+  if (src === PYODIDE_ROBOT_ANIMATION) {
+    const robotCode = await fetchCode(PYODIDE_ROBOT_ANIMATION);
+    editor1.setValue(robotCode, -1);
+    updateUrlParam("src", PYODIDE_ROBOT_ANIMATION);
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  } else {
+    const initialCode = await fetchCode(src || GIST_ADD1TO100);
+    editor1.setValue(initialCode, -1);
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  }
+
+  editor2.setValue("", -1);
+
+  // 按鈕事件
+  document.getElementById("version").onclick = () => {
+    const vcode = `
+import pyodide
+import sys
+import matplotlib
+import numpy
+import scipy
+print("Pyodide version:", pyodide.__version__)
+print("Python version :", sys.version)
+print("matplotlib version:", matplotlib.__version__)
+print("numpy version:", numpy.__version__)
+print("scipy version:", scipy.__version__)
+`;
+    editor1.setValue(vcode, -1);
+    updateUrlParam("src", "inline_version");
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  };
+
+  document.getElementById("hello_button").onclick = () => {
+    editor1.setValue("hello()", -1);
+    updateUrlParam("src", "inline_hello");
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  };
+
+  document.getElementById("add1to100").onclick = async () => {
+    const c = await fetchCode(GIST_ADD1TO100);
+    editor1.setValue(c, -1);
+    updateUrlParam("src", GIST_ADD1TO100);
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  };
+
+  document.getElementById("numpy_ode").onclick = async () => {
+    const c = await fetchCode(NUMPY_ODE);
+    editor1.setValue(c, -1);
+    updateUrlParam("src", NUMPY_ODE);
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  };
+
+  document.getElementById("robot1").onclick = async () => {
+    const rc = await fetchCode(PYODIDE_ROBOT_ANIMATION);
+    editor1.setValue(rc, -1);
+    updateUrlParam("src", PYODIDE_ROBOT_ANIMATION);
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  };
+
+  document.getElementById("free_walk").onclick = async () => {
+    const rc = await fetchCode(FREE_WALK);
+    editor1.setValue(rc, -1);
+    updateUrlParam("src", FREE_WALK);
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  };
+
+  document.getElementById("add1to100part2").onclick = async () => {
+    const c = await fetchCode(GIST_ADD1TO100);
+    editor2.setValue(c, -1);
+    runPyodide(editor2, "kw_console2", "brython_div2");
+  };
+
+  document.getElementById("kw_run1").onclick = () =>
+    runPyodide(editor1, "kw_console1", "brython_div1");
+  document.getElementById("kw_run2").onclick = () =>
+    runPyodide(editor2, "kw_console2", "brython_div2");
+  document.getElementById("kw_clear_console1").onclick = () =>
+    clearOutput("kw_console1", "brython_div1");
+  document.getElementById("kw_clear_console2").onclick = () =>
+    clearOutput("kw_console2", "brython_div2");
+});
+
+// 調整 output textarea 行數
+document.getElementById("kw_output1").onclick = () => {
+  const ta = document.getElementById("kw_console1");
+  ta.rows = "15";
+  ta.cols = "70";
+  ta.scrollTop = 0;
+};
+document.getElementById("kw_output2").onclick = () => {
+  const ta = document.getElementById("kw_console2");
+  ta.rows = "15";
+  ta.cols = "70";
+  ta.scrollTop = 0;
+};
+
+async function fetchCode(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`載入失敗 ${r.status}`);
+  return await r.text();
+}
+
+function clearOutput(consoleId, divId) {
+  document.getElementById(consoleId).value = "";
+  document.getElementById(divId).innerHTML = "";
+}
+
+async function runPyodide(editor, consoleId, divId) {
+  document.getElementById(consoleId).value = "";
+  document.getElementById(divId).innerHTML = "";
+
+  await pyodide.runPythonAsync(`
+import sys
+class JsWriter:
+  def write(self, s):
+    from js import document
+    ta = document.getElementById("${consoleId}")
+    ta.value += s
+    ta.scrollTop = ta.scrollHeight
+sys.stdout = JsWriter()
+sys.stderr = JsWriter()
+`);
+
+  try {
+    await pyodide.runPythonAsync(editor.getValue());
+  } catch (e) {
+    document.getElementById(consoleId).value += "\\n錯誤：" + e.toString();
+  }
+}
+</script>
+</p>

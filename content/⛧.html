@@ -2,6 +2,7 @@
         <head>
         <title>cp2025_hw</title>
         <meta charset="utf-8">
+<meta property="head" content="H1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
@@ -141,26 +142,185 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content"> <a href='點擊球.html'>Next</a> >> 點擊球<br /><h1>About</h1>
-<p><span>執行三個程式的影片連結：<a href="https://youtu.be/PZbXoRjJsRk?si=1T8Jf0veygwvqIgG">https://youtu.be/PZbXoRjJsRk?si=1T8Jf0veygwvqIgG</a></span></p>
-<p><span>心得：</span></p>
-<p data-path-to-node="9,0">在執行這系列程式的過程中，我運用了可攜式程式套件進行實作，並透過操作終端機與電腦對話。這段經歷讓我能即時觀察指令執行的反饋，並在遇到錯誤時反覆修正，進而深入理解網頁程式的運行邏輯。</p>
-<p data-path-to-node="9,1"><b data-index-in-node="0" data-path-to-node="9,1">1. 後端架構理解：Flask 引擎與通訊埠管理</b> ：透過在終端機執行<span> </span><code data-index-in-node="34" data-path-to-node="9,1">pip install flask peewee flask_bcrypt</code>，我成功安裝了專案所需的後端模組。我認識到<span> </span><b data-index-in-node="93" data-path-to-node="9,1">Flask</b><span> </span>扮演著「後端引擎」的角色，負責處理數據並架設伺服器環境。在執行第二個程式時，我遇到了<b data-index-in-node="141" data-path-to-node="9,1">通訊埠衝突</b>的挑戰，因為第一個程式已佔用了預設的<span> </span><code data-index-in-node="171" data-path-to-node="9,1">port 5000</code>，所以我必須修改<span> </span><code data-index-in-node="189" data-path-to-node="9,1">app.py</code><span> </span>最後一行，手動指定為<span> </span><code data-index-in-node="207" data-path-to-node="9,1">port=5001</code><span> </span>才能讓程式順利啟動。</p>
-<p data-path-to-node="9,2"><b data-index-in-node="0" data-path-to-node="9,2">2. 專案部署與目錄切換實務</b> ：到了第三個「憤怒鳥與小豬」遊戲專案，我已能熟練地在終端機中完成套件安裝與目錄切換。我理解到在執行不同專案時，必須使用<span> </span><b data-index-in-node="74" data-path-to-node="9,2"><code data-index-in-node="74" data-path-to-node="9,2">cd</code></b><span> </span>指令精準控制路徑：每當完成一個程式並按下<span> </span><code data-index-in-node="98" data-path-to-node="9,2">Ctrl+C</code><span> </span>結束後，我會先輸入<span> </span><b data-index-in-node="115" data-path-to-node="9,2"><code data-index-in-node="115" data-path-to-node="9,2">cd ..</code></b><span> </span>回到上一層目錄，再進入下一個專案資料夾啟動新服務。</p>
-<p data-path-to-node="9,3">雖然一開始對操作流程感到陌生，且常因指令輸入錯誤或路徑不對導致程式無法執行，但透過不斷嘗試、在終端機中分析錯誤，以及向老師與同學請教，我逐漸理解了每個步驟背後的技術含義。</p>
-<p>課程名稱: 計算機程式</p>
-<p>課程評分:</p>
-<p style="padding-left: 30px;"><span style="background-color: #ffff00;">學習心得報告 (60%)</span> - MS Teams 線上參與，<span style="background-color: #ccffcc;">6人一組</span>每三週發表學習心得。</p>
-<p style="padding-left: 60px;">w3、w7、w10、w14、w17、w18</p>
-<p style="padding-left: 60px;">學習心得報告主題:</p>
-<p style="padding-left: 60px;">w3: 什麼是 git, GitHub, gist 與 cmsimde? 如何使用這些工具？為什麼要使用這些工具？ (<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/b4134dc3724f9c6aa1de7534a74f298288de0fa5/round_dot_move.py">動態模擬</a>)</p>
-<p style="padding-left: 60px;">w7: Brython 是什麼？如何在瀏覽器配置 Brython 環境？ Brython 能做什麼？ (<a href="https://mde.tw/cp2025/content/Brython.html">Brython</a>, <a href="https://mde.tw/cp2025/content/Robot_ex.html">Examples</a>)</p>
-<p style="padding-left: 60px;">w10: 如何在瀏覽器中模擬機器人作動？ (<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/58fed8bd2f5be98a6456a8dcae512011/raw/4019adba4ee4be19c35982d835bad8e7d83a7b2f/brython_robot4_ex1.py">機器人作動</a>)</p>
-<p style="padding-left: 60px;">w14: 在瀏覽器中模擬機器人作動的目的是什麼？ (<a href="./../downloads/otto_robot.7z">otto_robot.7z</a>, <a href="https://mde.tw/cad2025/content/Homework.html">Plotter</a>, <a href="./../downloads/open_duck_mini.7z">open_duck_mini.7z</a> ,<a href="https://webots.cloud/AcTNYs0">https://webots.cloud/AcTNYs0</a>)</p>
-<p style="padding-left: 60px;">w17 (<span style="background-color: #ccffcc;">1b 採 Youtube 影片簡報</span>): 計算機程式課程學到了什麼？</p>
-<p style="padding-left: 60px;">w18: 課程總結</p>
-<p style="padding-left: 30px;"><span style="background-color: #ffff00;">個人與分組網站維護 (40%)</span> - 每週至少兩次推送與課程進度相關的學習內容與心得。</p>
-<p style="padding-left: 60px;">w9 期中自評、w18 期末自評</p><br /> <a href='點擊球.html'>Next</a> >> 點擊球</div>
+    <div id="tipue_search_content">移動方塊遊戲 << <a href='移動方塊遊戲.html'>Previous</a> <a href='Brython.html'>Next</a> >> Brython<br /><h1>⛧</h1>
+<!-- 導入 Brython -->
+<script src="./../cmsimde/static/brython.js"></script>
+<script src="./../cmsimde/static/brython_stdlib.js"></script>
+<script>
+window.onload = function() {
+    console.log("啟動 Brython...");
+    brython({debug:1, pythonpath:['./../cmsimde/static/', './../downloads/py/']});
+}
+</script>
+<!-- 遊戲顯示區 -->
+<div id="brython_div1" style="width: 800px; height: 800px; border: 2px solid black; position: relative; margin: 10px; overflow: hidden;"></div>
+<!-- 按鈕 -->
+<p style="text-align: center; margin-top: 10px;"><button id="moveButton">⛧</button></p>
+<script type="text/python3">
+from browser import document, html, timer
+import random, math
+
+CELL_SIZE = 60
+IMG_PATH = "https://mde.tw/cp2025/reeborg/src/images/"
+
+div = document['brython_div1']
+div.style.backgroundColor = "midnightblue"
+
+# === 閃爍星星 ===
+letters = []
+def create_h_line(count):
+    container = html.DIV()
+    container.style.display = "flex"
+    container.style.justifyContent = "space-between"
+    container.style.position = "absolute"
+    container.style.bottom = "10px"
+    container.style.left = "10px"
+    for _ in range(count):
+        span = html.SPAN("星星")
+        span.style.fontWeight = "bold"
+        span.style.color = random.choice(["red","green","blue","orange","purple"])
+        span.style.fontSize = f"{random.randint(28,50)}px"
+        container <= span
+        letters.append(span)
+    div <= container
+
+create_h_line(40)
+
+def flicker():
+    for span in letters:
+        span.style.color = random.choice(["yellow","white","lightblue","lightyellow"])
+        span.style.fontSize = f"{random.randint(28,50)}px"
+    timer.set_timeout(flicker, 300)
+
+flicker()
+
+# === 閃爍小圓點 ===
+dots = []
+
+def create_flickering_dots(count):
+    for _ in range(count):
+        dot = html.DIV()
+        dot.style.width = f"{random.randint(3,8)}px"
+        dot.style.height = dot.style.width
+        dot.style.borderRadius = "50%"
+        dot.style.backgroundColor = "white"
+        dot.style.position = "absolute"
+        dot.style.left = f"{random.randint(0, 700)}px"
+        dot.style.top = f"{random.randint(0, 600)}px"
+        div <= dot
+        dots.append(dot)
+
+create_flickering_dots(30)
+
+def update_dots():
+    for dot in dots:
+        dot.style.left = f"{random.randint(0,700)}px"
+        dot.style.top = f"{random.randint(0,600)}px"
+
+# === 世界與機器人 ===
+class World:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.layers = {
+            "objects": html.CANVAS(width=width*CELL_SIZE, height=height*CELL_SIZE),
+            "robots": html.CANVAS(width=width*CELL_SIZE, height=height*CELL_SIZE)
+        }
+        container = html.DIV(style={"position":"relative","width":f"{width*CELL_SIZE}px","height":f"{height*CELL_SIZE}px"})
+        for canvas in self.layers.values():
+            canvas.style = {"position":"absolute","top":"0px","left":"0px"}
+            container <= canvas
+        div <= container
+
+    def _draw_image(self, ctx, src, x, y):
+        img = html.IMG()
+        img.src = src
+        def onload(evt):
+            px = x*CELL_SIZE
+            py = (self.height-1-y)*CELL_SIZE
+            ctx.drawImage(img, px, py, CELL_SIZE, CELL_SIZE)
+        img.bind("load", onload)
+
+class AnimatedRobot:
+    def __init__(self, world, x, y):
+        self.world = world
+        self.x = x-1
+        self.y = y-1
+        self.robot_ctx = world.layers["robots"].getContext("2d")
+        self.trace_ctx = world.layers["objects"].getContext("2d")
+        self.queue = []
+        self.running = False
+        self._draw_robot()
+
+    def _draw_robot(self):
+        self.robot_ctx.clearRect(0,0,self.world.width*CELL_SIZE,self.world.height*CELL_SIZE)
+        self.world._draw_image(self.robot_ctx, IMG_PATH + "blue_robot_e.png", self.x, self.y)
+
+    def mark(self, x, y):
+        ctx = self.trace_ctx
+        ctx.fillStyle = "yellow"
+        px = x * CELL_SIZE
+        py = (self.world.height-1-y) * CELL_SIZE
+        ctx.fillRect(px+CELL_SIZE*0.2, py+CELL_SIZE*0.2, CELL_SIZE*0.6, CELL_SIZE*0.6)
+
+    def move_to(self, x, y, mark=False):
+        def action(done):
+            self.x, self.y = x, y
+            if mark:
+                self.mark(x, y)
+            self._draw_robot()
+            timer.set_timeout(done, 300)
+        self.queue.append(action)
+        self._run_queue()
+
+    def _run_queue(self):
+        if self.running or not self.queue: return
+        self.running = True
+        action = self.queue.pop(0)
+        action(lambda: self._done())
+
+    def _done(self):
+        self.running = False
+        self._run_queue()
+
+# 初始化世界
+world = World(12,12)
+robot = AnimatedRobot(world,6,6)
+
+# 五角星座標
+def calculate_star_points(center_x, center_y, outer_radius, inner_radius):
+    points = []
+    for i in range(5):
+        angle = math.radians(i*72)
+        outer_x = center_x + outer_radius*math.cos(angle)
+        outer_y = center_y + outer_radius*math.sin(angle)
+        points.append((outer_x, outer_y))
+        inner_angle = math.radians(i*72+36)
+        inner_x = center_x + inner_radius*math.cos(inner_angle)
+        inner_y = center_y + inner_radius*math.sin(inner_angle)
+        points.append((inner_x, inner_y))
+    return points
+
+star_points = calculate_star_points(6,6,4,2)
+
+def draw_star_path():
+    for i in range(5):
+        x1,y1 = star_points[i*2]
+        x2,y2 = star_points[i*2+1]
+        robot.move_to(x1,y1,mark=True)
+        robot.move_to(x2,y2,mark=True)
+    robot.move_to(star_points[0][0], star_points[0][1], mark=True)
+
+draw_star_path()
+
+# 按鈕事件，增加 debug log
+def on_button_click(ev):
+    print("⛧ 按鈕被點擊")
+    update_dots()
+    draw_star_path()
+
+document["moveButton"].bind("click", on_button_click)
+</script><br />移動方塊遊戲 << <a href='移動方塊遊戲.html'>Previous</a> <a href='Brython.html'>Next</a> >> Brython</div>
         
     <!-- footer -->
       <div class="container">
